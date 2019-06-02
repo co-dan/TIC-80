@@ -198,6 +198,10 @@ const tic_script_config* getFennelConfig();
 const tic_script_config* getJsScriptConfig();
 #endif
 
+#if defined(TIC_BUILD_WITH_GUILE)
+const tic_script_config* getGuileConfig();
+#endif
+
 #if defined(TIC_BUILD_WITH_WREN)
 const tic_script_config* getWrenScriptConfig();
 #endif

@@ -1635,6 +1635,11 @@ static const tic_script_config* getScriptConfig(const char* code)
 		return getFennelConfig();
 #endif
 
+#if defined(TIC_BUILD_WITH_GUILE)
+	if(compareMetatag(code, "script", "guile", getGuileConfig()->singleComment))
+		return getGuileConfig();
+#endif
+
 #if defined(TIC_BUILD_WITH_JS)
 	if(compareMetatag(code, "script", "js", getJsScriptConfig()->singleComment) ||
 		compareMetatag(code, "script", "javascript", getJsScriptConfig()->singleComment)) 

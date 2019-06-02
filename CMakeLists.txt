@@ -197,6 +197,7 @@ set(TIC80CORE_SRC
 	${TIC80CORE_DIR}/luaapi.c 
 	${TIC80CORE_DIR}/wrenapi.c 
         ${TIC80CORE_DIR}/squirrelapi.c
+        ${TIC80CORE_DIR}/guileapi.c
 	${TIC80CORE_DIR}/ext/gif.c
 	3rd-party/blip-buf/blip_buf.c # TODO: link it as lib?
 	3rd-party/duktape-2.2.0/src/duktape.c # TODO: link it as lib?
@@ -637,3 +638,11 @@ foreach(TIC80_OUTPUT ${TIC80_OUTPUTS})
 	endif()
 
 endforeach()
+
+# LMAO GUILE
+# include_directories(/gnu/store/9alic3caqhay3h8mx4iihpmyj6ymqpcx-guile-2.2.4/include/guile/2.2)
+# link_directories(/gnu/store/9alic3caqhay3h8mx4iihpmyj6ymqpcx-guile-2.2.4/include/guile/2.2 /gnu/store/04vqghzmpqzxpd94h1q931xpmazp5s7g-libgc-7.6.6/lib)
+include_directories(/usr/include/guile/2.2)
+target_link_libraries(tic80core guile-2.2 pthread gc)
+SET(CMAKE_C_COMPILER /usr/bin/gcc)
+SET(CMAKE_CXX_COMPILER /usr/bin/c++)

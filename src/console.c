@@ -77,6 +77,10 @@ typedef enum
 	SquirrelScript,
 #endif
 
+#if defined(TIC_BUILD_WITH_GUILE)
+	Guile,
+#endif
+
 } ScriptLang;
 
 #if defined(__TIC_WINDOWS__) || defined(__TIC_LINUX__) || defined(__TIC_MACOSX__)
@@ -490,6 +494,10 @@ static void* getDemoCart(Console* console, ScriptLang script, s32* size)
 		case JavaScript: strcpy(path, DefaultJSTicPath); break;
 #endif
 
+#if defined(TIC_BUILD_WITH_GUILE)
+		case Guile: strcpy(path, DefaultFennelTicPath); break;
+#endif
+
 #if defined(TIC_BUILD_WITH_WREN)
 		case WrenScript: strcpy(path, DefaultWrenTicPath); break;
 #endif
@@ -695,6 +703,7 @@ static bool hasProjectExt(const char* name)
 		|| hasExt(name, PROJECT_JS_EXT)
 		|| hasExt(name, PROJECT_WREN_EXT)
 		|| hasExt(name, PROJECT_SQUIRREL_EXT)
+		|| hasExt(name, PROJECT_GUILE_EXT)
 		|| hasExt(name, PROJECT_FENNEL_EXT);
 }
 
@@ -706,7 +715,8 @@ static const char* projectComment(const char* name)
 		|| hasExt(name, PROJECT_WREN_EXT)
 		|| hasExt(name, PROJECT_SQUIRREL_EXT))
 		comment = "//";
-	else if(hasExt(name, PROJECT_FENNEL_EXT))
+	else if(hasExt(name, PROJECT_FENNEL_EXT)
+                || hasExt(name, PROJECT_GUILE_EXT))
 		comment = ";;";
 	else
 		comment = "--";
@@ -1090,6 +1100,9 @@ static void onConsoleLoadCommandConfirmed(Console* console, const char* param)
 				name = getName(param, PROJECT_FENNEL_EXT);
 
 			if(!fsExistsFile(console->fs, name))
+				name = getName(param, PROJECT_GUILE_EXT);
+
+			if(!fsExistsFile(console->fs, name))
 				name = getName(param, PROJECT_SQUIRREL_EXT);
 
 			void* data = fsLoadFile(console->fs, name, &size);
@@ -1264,6 +1277,14 @@ static void onConsoleNewCommandConfirmed(Console* console, const char* param)
 #	endif
 
 #endif /* defined(TIC_BUILD_WITH_LUA) */
+
+#if defined(TIC_BUILD_WITH_GUILE)
+		if(strcmp(param, "guile") == 0)
+		{
+			loadDemo(console, Guile);
+			done = true;
+		}
+#endif
 
 #if defined(TIC_BUILD_WITH_JS)
 		if(strcmp(param, "js") == 0 || strcmp(param, "javascript") == 0)

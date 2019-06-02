@@ -398,6 +398,7 @@ static bool addMenuItem(const char* name, const char* info, s32 id, void* ptr, b
 		|| hasExt(name, PROJECT_WREN_EXT)
 		|| hasExt(name, PROJECT_FENNEL_EXT)
 		|| hasExt(name, PROJECT_SQUIRREL_EXT)
+		|| hasExt(name, PROJECT_GUILE_EXT)
 #endif
 		)
 	{

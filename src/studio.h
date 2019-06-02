@@ -61,6 +61,7 @@
 #define PROJECT_WREN_EXT ".wren"
 #define PROJECT_SQUIRREL_EXT ".nut"
 #define PROJECT_FENNEL_EXT ".fnl"
+#define PROJECT_GUILE_EXT ".scm"
 
 typedef enum
 {
